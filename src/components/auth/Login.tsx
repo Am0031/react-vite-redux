@@ -47,7 +47,6 @@ export const Login: React.FC = () => {
 
   const handleUserTypeSelection = (role: "participant" | "judge" | "admin") => {
     setTempUserRole(role);
-    // dispatch(setUserRole(role)); // Update Redux store with the selected role
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -55,7 +54,6 @@ export const Login: React.FC = () => {
     loginMutation.mutate({ username, password });
   };
 
-  //Old
   const handleLoginSuccess = (role: any) => {
     dispatch(setUserRole(role)); // Dispatch the role to the Redux store
     navigate("/dashboard"); // Navigate to the dashboard
