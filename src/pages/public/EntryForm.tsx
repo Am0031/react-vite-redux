@@ -6,8 +6,10 @@ import {
   FormControl,
   MenuItem,
   InputLabel,
+  CircularProgress,
 } from "@mui/material";
 import { useReducer, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface EntryObject {
   categoryName: string;
@@ -24,8 +26,29 @@ interface StateObject {
   number: string | undefined;
   age: number | undefined;
 }
+
+const fetchCategories = async () => {
+  return new Promise<string[]>((resolve) => {
+    setTimeout(() => {
+      resolve([
+        "Knitting",
+        "Crochet",
+        "Machine sewing",
+        "Horticulture",
+        "Art",
+        "Poetry",
+      ]);
+    }, 1000); // Simulate 1-second network delay
+  });
+};
+
 export const EntryForm: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>();
+
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
 
   //initial state
   const initialState: StateObject = {
@@ -65,36 +88,32 @@ export const EntryForm: React.FC = () => {
   //useReducer state
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const categories = [
-    "Knitting",
-    "Crochet",
-    "Machine sewing",
-    "Horticulture",
-    "Art",
-    "Poetry",
-  ];
   return (
     <Box>
       <h1>Entry form</h1>
       <p>Choose the categories you want to enter.</p>
-      <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
-        <InputLabel id="category-select-label">Categories</InputLabel>
-        <Select
-          // displayEmpty
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          label="Categories"
-        >
-          <MenuItem disabled value="">
-            <em>Categories</em>
-          </MenuItem>
-          {categories.map((name: any) => (
-            <MenuItem key={name} value={name}>
-              {name}
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+          <InputLabel id="category-select-label">Categories</InputLabel>
+          <Select
+            // displayEmpty
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            label="Categories"
+          >
+            <MenuItem disabled value="">
+              <em>Categories</em>
             </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+            {categories?.map((name: any) => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
     </Box>
   );
 };

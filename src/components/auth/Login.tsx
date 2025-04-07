@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setUserRole } from "../../store/reducers/userSlice";
 import { useState } from "react";
@@ -118,7 +118,7 @@ export const Login: React.FC = () => {
           <button type="submit" disabled={loginMutation.isPending}>
             {loginMutation.isPending ? "Logging in..." : "Log In"}
           </button>
-          {loginMutation.isPending && <p>Logging in...</p>}
+          {loginMutation.isPending && <CircularProgress />}
           {loginMutation.isError && (
             <p>An error occurred: {loginMutation.error.message}</p>
           )}
