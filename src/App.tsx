@@ -19,6 +19,7 @@ import Layout from "./components/ui/Layout";
 import { EntryForm } from "./pages/public/EntryForm";
 import { Provider, useSelector } from "react-redux";
 import { RootState, store } from "./store";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const darkTheme = createTheme({
   palette: {
@@ -26,30 +27,34 @@ const darkTheme = createTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 const App = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Provider store={store}>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<PublicHome />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/register" element={<EntryForm />} />
-              <Route path="/login" element={<Login />} />
-              <Route
-                element={
-                  <ProtectedRoute>
-                    <DashboardWrapper />
-                  </ProtectedRoute>
-                }
-              >
-                <Route path="/dashboard" element={<DashboardWrapper />} />
-              </Route>
-            </Routes>
-          </Layout>
-        </Router>
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<PublicHome />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/register" element={<EntryForm />} />
+                <Route path="/login" element={<Login />} />
+                <Route
+                  element={
+                    <ProtectedRoute>
+                      <DashboardWrapper />
+                    </ProtectedRoute>
+                  }
+                >
+                  <Route path="/dashboard" element={<DashboardWrapper />} />
+                </Route>
+              </Routes>
+            </Layout>
+          </Router>
+        </QueryClientProvider>
       </Provider>
     </ThemeProvider>
   );
