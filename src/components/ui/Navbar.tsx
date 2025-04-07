@@ -5,7 +5,6 @@ import {
   Typography,
   Box,
   Drawer,
-  IconButton,
   List,
   ListItemText,
 } from "@mui/material";
@@ -76,6 +75,13 @@ export const Navbar: React.FC = () => {
                 >
                   Logout
                 </Button>
+                <Button
+                  id={"navbar-drawer"}
+                  color="inherit"
+                  onClick={handleDrawerToggle}
+                >
+                  {drawerOpen ? "Close Menu" : "Open Menu"}{" "}
+                </Button>
               </>
             ) : (
               <Button
@@ -86,13 +92,6 @@ export const Navbar: React.FC = () => {
                 Login
               </Button>
             )}
-            <Button
-              id={"navbar-drawer"}
-              color="inherit"
-              onClick={handleDrawerToggle}
-            >
-              {drawerOpen ? "Close Menu" : "Open Menu"}{" "}
-            </Button>
           </Box>
         </Toolbar>
       </AppBar>
@@ -114,13 +113,13 @@ export const Navbar: React.FC = () => {
             X
           </Button>
           <List>
-            <Button onClick={() => navigate("/login")}>
+            <Button onClick={() => console.log("going to profile")}>
               <ListItemText primary="Profile" />
             </Button>
-            <Button onClick={() => navigate("/register")}>
+            <Button onClick={() => console.log("going to settings")}>
               <ListItemText primary="Settings" />
             </Button>
-            <Button onClick={() => navigate("/")}>
+            <Button onClick={() => console.log("going to home")}>
               <ListItemText primary="Home" />
             </Button>
           </List>
